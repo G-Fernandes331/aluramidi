@@ -1,19 +1,34 @@
-function playSound (idElementAudio) {
-    document.querySelector(idElementAudio).play();
+function playSound (selectorAudio) {
+    const element = document.querySelector(selectorAudio);
+
+    if (element && element.localName === 'audio') {
+            element.play();   
+    } else {
+        alert('Foi nao paizao...');
+    }
+
 }
 
 const keyList = document.querySelectorAll('.tecla');
 
-let counter = 0;
-
 for (counter = 0; counter < keyList.length; counter++) {
     const key = keyList[counter];
     const instrumento = key.classList[1];
-// \/ \/ \/ Template String \/ \/ \/
     const idAudio = `#som_${instrumento}`;
 
     key.onclick = function () {
         playSound(idAudio);
     }
 
+    key.onkeydown = function (event) {
+        
+        if (event.code === 'Space' || event.code === 'Enter') {
+            key.classList.add('ativa');
+        }
+
+        key.onkeyup = function () {
+            key.classList.remove('ativa');
+        }
+    }
+        
 }
